@@ -22,14 +22,14 @@ const clerkWebhooks=async (req,res)=>{
         switch(type){
             case "user.created":{
                 const userData={
-                   clerkid:data.id,
+                   clerkId:data.id,
                    email:data.email_addresses[0].email_address,
                    firstName:data.first_name,
                    lastName:data.last_name,
                    photo:data.image_url
                 }
 
-                await userModel.crete(userData)
+                await userModel.create(userData)
                 res.json({})
                 break;
             }
@@ -65,4 +65,26 @@ const clerkWebhooks=async (req,res)=>{
 }
 
 
-export {clerkWebhooks}
+
+
+
+//  API Controller function to grt 
+const userCredits=async(req,res)=>{
+    try{
+
+        const {clerkId} =req.user
+        const userData =await userModel.findOne({clerkId})
+
+        res.json({success:true,credits:userData.creditBalance})
+
+    }
+    catch(error){
+         console.log(error.message)
+        res.json({success:false,message:error.message})
+    }
+}
+
+
+
+
+export {clerkWebhooks,userCredits}
