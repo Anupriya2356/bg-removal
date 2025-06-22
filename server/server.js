@@ -13,7 +13,7 @@ await connectDB()
 
 // Intialize Middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors({ origin: '*' })); // Allow requests from all origins
 
 // API routes
 app.get('/',(req,res)=>res.send("API Working"))

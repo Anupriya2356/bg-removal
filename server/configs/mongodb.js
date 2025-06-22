@@ -1,12 +1,27 @@
 import mongoose from "mongoose";
 
-const connectDB=async ()=>{
+const connectDB = async () => {
+  try {
+    mongoose.connection.on("connected", () => {
+      console.log("✅ MongoDB Connected Successfully");
+    });
 
-    mongoose.connection.on('connected',()=>{
-        console.log('Connected to MongoDB');
-    })
+    mongoose.connection.on("error", (err) => {
+      console.error("❌ MongoDB Connection Error:", err);
+    });
 
-    await mongoose.connect(process.env.MONGODB_URI)
-}
+    mongoose.connection.on("disconnected", () => {
+      console.log("⚠️ MongoDB Disconnected");
+    });
 
-export default connectDB
+    console.log("⏳ MongoDB Connection Attempted");
+
+    await mongoose.connect(`${process.env.MONGODB_URI}/bgRemove`);
+
+  } catch (error) {
+    console.error("❌ MongoDB Connection Failed:", error);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
