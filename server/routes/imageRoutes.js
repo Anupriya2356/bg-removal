@@ -1,10 +1,11 @@
 import express from 'express';
 import { removeBgImage } from '../controllers/ImageController.js';
 import upload from '../middleware/multer.js';
-import authUser from '../middleware/auth.js';
+import { authUser } from '../middleware/jwtAuth.js';
 
-const imageRouter =express.Router()
+const router = express.Router();
 
-imageRouter.post('/remove-bg',upload.single('image'),authUser,removeBgImage)
+// Protected route (requires authentication)
+router.post('/remove-bg', authUser, upload.single('image'), removeBgImage);
 
-export default imageRouter;  
+export default router;

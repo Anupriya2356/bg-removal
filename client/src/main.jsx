@@ -4,6 +4,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { ClerkProvider } from '@clerk/clerk-react'
 import AppContextProvider from './context/AppContext.jsx'
+import { AuthProvider } from './context/AuthContext'
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -15,9 +16,11 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <AppContextProvider>
+      <AuthProvider>
+        <AppContextProvider>
           <App />
-      </AppContextProvider>
+        </AppContextProvider>
+      </AuthProvider>
     </ClerkProvider>
-  </BrowserRouter>
+  </BrowserRouter>,
 )

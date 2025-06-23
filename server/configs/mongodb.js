@@ -16,7 +16,12 @@ const connectDB = async () => {
 
     console.log("⏳ MongoDB Connection Attempted");
 
-    await mongoose.connect(`${process.env.MONGODB_URI}/bgRemove`);
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      writeConcern: { w: 'majority' },
+      retryWrites: true
+    });
 
   } catch (error) {
     console.error("❌ MongoDB Connection Failed:", error);

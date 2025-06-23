@@ -1,90 +1,39 @@
-import {Webhook} from 'svix'
 import userModel from '../models/userModel.js'
 
-// API Controller Function to Manage Clerk User with database
-// http://localhost:400/api/user/webhooks
 
-const clerkWebhooks=async (req,res)=>{
+//  API Controller function to get user credits
+const getUserCredits = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.json({ success: true, credits: user.creditBalance });
+  } catch (error) {
+    console.error('Get credits error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// Update user profile
+const updateProfile = async (req, res) => {
+  try {
+    const { firstname, lastname } = req.body;
+    const user = await userModel.findByIdAndUpdate(
+      req.user.userId,
+      { firstname, lastname },
+      { new: true, runValidators: true }
+    ).select('-password');
     
-    try {
-
-        // Create a svix instance with clerk 's API key
-        const whook = new Webhook(process.env.CLERK_WEBHOOK_SECRET)
-
-        await whook.verify(JSON.stringify(req.body),{
-            "svix-id":req.headers["svix-id"],
-            "svix-timestamp":req.headers["svix-timestamp"],
-            "svix-signature":req.headers["svix-signature"]
-        })
-        
-        const {data,type}=req.body
-
-        switch(type){
-            case "user.created":{
-                const userData={
-                   clerkId:data.id,
-                   email:data.email_addresses[0].email_address,
-                   firstName:data.first_name,
-                   lastName:data.last_name,
-                   photo:data.image_url
-                }
-
-                await userModel.create(userData)
-                res.json({})
-                break;
-            }
-            case "user.updated":{
-
-                const userData={
-                   email:data.email_addresses[0].email_address,
-                   firstName:data.first_name,
-                   lastName:data.last_name,
-                   photo:data.image_url
-                }
-                await userModel.findOneAndUpdate({clerkId:data.id},userData)
-                res.json({})
-                break;
-            }
-            case "user.deleted":{
-
-                await userModel.findOneAndDelete({clerkId:data.id})
-                res.json({})
-                break;
-            }
-            default:{
-                break;
-            }
-
-        }
-
-    } catch (error){
-        console.log(error.message)
-        res.json({success:false,message:error.message})
-
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
     }
-}
+    
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
 
-
-
-
-
-//  API Controller function to grt 
-const userCredits=async(req,res)=>{
-    try{
-
-         const clerkId = req.user.clerkId;
-        const userData =await userModel.findOne({clerkId})
-
-        res.json({success:true,credits:userData.creditBalance})
-
-    }
-    catch(error){
-         console.log(error.message)
-        res.json({success:false,message:error.message})
-    }
-}
-
-
-
-
-export {clerkWebhooks,userCredits}
+export { getUserCredits, updateProfile };
