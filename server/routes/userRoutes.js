@@ -1,10 +1,16 @@
-import express from 'express'
-import { clerkWebhooks, userCredits } from '../controllers/userController.js'
-import authUser from '../middleware/auth.js'
+import express from 'express';
+import { getUserCredits, updateProfile } from '../controllers/userController.js';
+import { authUser } from '../middleware/jwtAuth.js';
 
-const userRouter =express.Router()
+const userRouter = express.Router();
 
-userRouter.post('/webhooks',clerkWebhooks)
-userRouter.get('/credits',authUser,userCredits)
+// Protected routes (require authentication)
+userRouter.use(authUser);
 
-export default userRouter  
+// Get user credits
+userRouter.get('/credits', getUserCredits);
+
+// Update user profile
+userRouter.put('/profile', updateProfile);
+
+export default userRouter
