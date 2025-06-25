@@ -54,17 +54,25 @@ const Profile = () => {
       <div className="max-w-3xl mx-auto">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center text-gray-600 hover:text-violet-600 mb-6 transition-colors"
+          className="flex items-center text-gray-600 hover:text-violet-600 mb-6 transition-colors group"
         >
-          <FiArrowLeft className="mr-2" /> Back
+          <FiArrowLeft className="mr-2 group-hover:-translate-x-0.5 transition-transform" /> Back
         </button>
 
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
           {/* Profile Header */}
-          <div className="bg-violet-600 px-6 py-8 text-center">
-            <div className="w-24 h-24 mx-auto rounded-full bg-white p-1 mb-4">
-              <div className="w-full h-full rounded-full bg-violet-100 flex items-center justify-center">
-                <FiUser className="text-4xl text-violet-600" />
+          <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 px-6 py-8 text-center">
+            <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 p-1 mb-4">
+              <div className="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
+                {user?.photoURL ? (
+                  <img 
+                    src={user.photoURL} 
+                    alt={user?.name || 'User'} 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <FiUser className="text-4xl text-violet-600" />
+                )}
               </div>
             </div>
             <h1 className="text-2xl font-bold text-white">
@@ -102,7 +110,7 @@ const Profile = () => {
               <div className="pt-4 border-t border-gray-200">
                 <button
                   onClick={handleLogout}
-                  className="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  className="w-full flex justify-center items-center px-6 py-3 rounded-full text-sm font-medium text-white bg-gradient-to-r from-violet-600 to-fuchsia-500 hover:from-violet-700 hover:to-fuchsia-600 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 transition-all duration-200"
                 >
                   <FiLogOut className="mr-2" />
                   Sign out

@@ -56,6 +56,12 @@ const Home = () => {
     noClick: !!preview,
     noKeyboard: true
   });
+  
+  // Manually trigger file input click
+  const handleBrowseClick = (e) => {
+    e.stopPropagation();
+    fileInputRef.current?.click();
+  };
 
   const handleRemoveBg = async () => {
     if (!isAuthenticated) {
@@ -144,20 +150,20 @@ const Home = () => {
               <div
                 {...getRootProps()}
                 className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-all duration-200 ${
-                  isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-blue-400 bg-gray-50/50'
+                  isDragging ? 'border-violet-500 bg-violet-50' : 'border-violet-200 hover:border-violet-400 bg-violet-50/50'
                 }`}
               >
                 <input 
-                  {...getInputProps()} 
-                  onChange={handleFileChange}
                   ref={fileInputRef}
-                  className="hidden"
                   type="file"
+                  onChange={handleFileChange}
+                  className="hidden"
                   accept="image/*"
+                  {...getInputProps()}
                 />
                 <div className="space-y-4">
-                  <div className="mx-auto w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center">
-                    <FiUpload className="w-8 h-8 text-blue-500" />
+                  <div className="mx-auto w-16 h-16 bg-gradient-to-r from-violet-50 to-fuchsia-50 rounded-full flex items-center justify-center border-2 border-dashed border-violet-200">
+                    <FiUpload className="w-8 h-8 text-violet-600" />
                   </div>
                   <div>
                     <p className="text-lg font-medium text-gray-800">
@@ -165,7 +171,10 @@ const Home = () => {
                     </p>
                     <p className="text-sm text-gray-500 mt-2">
                       or{' '}
-                      <span className="text-blue-600 font-medium hover:text-blue-700 cursor-pointer">
+                      <span 
+                        onClick={handleBrowseClick}
+                        className="text-violet-600 font-medium hover:text-violet-700 cursor-pointer"
+                      >
                         browse files
                       </span>
                     </p>
