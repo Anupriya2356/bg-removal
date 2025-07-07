@@ -36,38 +36,40 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='bg-white shadow-md py-3 px-4 flex justify-between items-center'>
-      <Link to='/' className='text-xl font-bold text-slate-800'>
-        <img className='w-32 sm:w-44' src={assets.logo} alt="Logo" />
+    <nav className='bg-white/80 backdrop-blur-sm sticky top-0 z-10 border-b border-gray-100 py-2 px-4 sm:px-6 flex justify-between items-center'>
+      <Link to='/' className='text-xl font-bold text-slate-800 hover:opacity-80 transition-opacity'>
+        <img className='w-28 sm:w-36' src={assets.logo} alt="Logo" />
       </Link>
 
       <div className='flex items-center gap-4'>
         {isAuthenticated ? (
           <div className='flex items-center gap-4'>
-            <div className='hidden sm:flex items-center gap-2'>
-              <span className='text-sm text-slate-600'>Credits:</span>
-              <span className='font-medium'>{credit}</span>
+            <div className='hidden sm:flex items-center gap-3'>
+              <div className='text-sm bg-gray-50 px-3 py-1.5 rounded-full'>
+                <span className='text-slate-500'>Credits: </span>
+                <span className='font-medium text-slate-800'>{credit}</span>
+              </div>
+              <Link 
+                to='/buy' 
+                className='bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white px-4 py-1.5 rounded-full text-sm font-medium hover:opacity-90 transition-all shadow-sm hover:shadow-md'
+              >
+                Buy Credits
+              </Link>
             </div>
-            <Link 
-              to='/buy' 
-              className='hidden sm:block bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors'
-            >
-              Buy Credits
-            </Link>
             <div className='relative dropdown-container'>
               <button 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className='flex items-center gap-1 focus:outline-none transition-colors rounded-full p-1 hover:bg-gray-100'
+                className='flex items-center gap-1 focus:outline-none transition-all rounded-full p-0.5 hover:bg-gray-50'
               >
-                <div className='w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-medium'>
+                <div className='w-8 h-8 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 flex items-center justify-center text-white font-medium text-sm'>
                   {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                 </div>
-                <FiChevronDown className={`text-gray-500 transition-transform ${isDropdownOpen ? 'transform rotate-180' : ''}`} />
+                <FiChevronDown className={`text-black transition-transform ${isDropdownOpen ? 'transform rotate-180' : ''}`} />
               </button>
               
               {isDropdownOpen && (
                 <div 
-                  className='absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 divide-y divide-gray-100'
+                  className='absolute right-0 mt-1 w-52 rounded-lg shadow-lg bg-white/95 backdrop-blur-sm ring-1 ring-gray-100 z-50 divide-y divide-gray-100'
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className='px-4 py-3'>

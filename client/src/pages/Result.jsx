@@ -87,15 +87,15 @@ const Result = () => {
     }, [image]);
 
     return (
-        <div className='mx-4 my-3 lg:mx-44 mt-14 min-h-[75vh]'>
-
-        <div className='bg-white rounded-lg px-8 py-6 drop-shadow-sm'>
+        <div className='min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-6xl mx-auto'>
+            <div className='bg-white rounded-xl shadow-sm overflow-hidden px-8 py-8'>
 
             {/* -------- Image Container -------- */}
             <div className='flex flex-col sm:grid grid-cols-2 gap-8'>
                 {/* -------- Left Side -------- */}
                 <div>
-                    <p className='font-semibold text-gray-600 mb-2'>Original</p>
+                    <p className='font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wider'>Original</p>
                     <div className='relative rounded-md border border-gray-300 min-h-[300px] bg-gray-50 flex items-center justify-center overflow-hidden'>
                         {image ? (
                             <>
@@ -121,13 +121,13 @@ const Result = () => {
                             </>
                         ) : (
                             <div className='flex flex-col items-center justify-center p-6 text-center w-full h-full'>
-                                <div className='w-16 h-16 bg-violet-100 rounded-full flex items-center justify-center mb-4'>
+                                <div className='w-16 h-16 bg-gradient-to-r from-violet-100 to-fuchsia-50 rounded-full flex items-center justify-center mb-4 border-2 border-dashed border-violet-200'>
                                     <FiImage className='text-violet-600 text-2xl' />
                                 </div>
                                 <p className='text-gray-500 mb-6'>No image available</p>
                                 <button 
                                     onClick={handleTryAnother}
-                                    className='px-6 py-3 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors flex items-center justify-center gap-2 text-sm font-medium shadow-sm hover:shadow-md'
+                                    className='px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white rounded-full hover:from-violet-700 hover:to-fuchsia-600 transition-all duration-200 flex items-center justify-center gap-2 text-sm font-medium shadow-md hover:shadow-lg'
                                 >
                                     <FiUpload className='text-base' />
                                     Upload New Image
@@ -140,7 +140,7 @@ const Result = () => {
 
                 {/* -------- Right Side -------- */}
                 <div className='flex flex-col'>
-                    <p className='font-semibold text-gray-600 mb-2'>Background Removed</p>
+                    <p className='font-semibold text-gray-700 mb-3 text-sm uppercase tracking-wider'>Background Removed</p>
                     <div className='relative rounded-lg border-2 border-dashed border-gray-300 h-full min-h-[300px] bg-gray-50 overflow-hidden transition-colors hover:border-violet-400'>
                         {isProcessing ? (
                             <div className='absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90'>
@@ -182,10 +182,10 @@ const Result = () => {
 
             {/* ------- Buttons -------- */}
             {resultImage && (
-                <div className='flex justify-center sm:justify-end items-center flex-wrap gap-4 mt-6'>
+                <div className='flex flex-col sm:flex-row justify-center sm:justify-end items-center gap-4 mt-10 pt-6 border-t border-gray-100'>
                     <button 
                         onClick={handleTryAnother}
-                        className='px-8 py-2.5 text-violet-600 text-sm border border-violet-600 rounded-full hover:scale-105 transition-all duration-700 flex items-center gap-2'
+                        className='w-full sm:w-auto px-8 py-3 text-violet-600 text-sm font-medium border-2 border-violet-100 rounded-full hover:bg-violet-50 hover:border-violet-200 transition-all duration-200 flex items-center justify-center gap-2'
                     >
                         <FiImage className='text-base' />
                         Try another image
@@ -193,7 +193,7 @@ const Result = () => {
                     <a 
                         href={resultImage} 
                         download="background-removed.png" 
-                        className='px-8 py-2.5 text-white text-sm bg-gradient-to-r from-violet-600 to-fuchsia-500 rounded-full hover:scale-105 transition-all duration-700 flex items-center gap-2'
+                        className='w-full sm:w-auto px-8 py-3 text-white text-sm font-medium bg-gradient-to-r from-violet-600 to-fuchsia-500 rounded-full hover:from-violet-700 hover:to-fuchsia-600 hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2'
                     >
                         <FiDownload className='text-base' />
                         Download image
@@ -203,6 +203,7 @@ const Result = () => {
         </div>
 
         </div>
+    </div>
     )
 }
 

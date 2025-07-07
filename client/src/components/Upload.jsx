@@ -8,7 +8,9 @@ const Upload = () => {
     return (
         <div className='pb-16'>
             {/* Title */}
-            <h1 className='text-center text-2xl md:text-4xl mt-4 font-semibold bg-gradient-to-r from-gray-900 to-gray-400 bg-clip-text text-transparent py-6 md:py-16'>See the magic. Try now</h1>
+            <h1 className='text-center text-2xl md:text-4xl mt-4 font-semibold py-6 md:py-16'>
+                See the <span className='bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent'>magic</span>. Try now
+            </h1>
 
             <div className='text-center mb-24'>
                 <input onChange={e=> removeBg(e.target.files[0])} type='file' accept='image/*' id="upload2" hidden/>
