@@ -17,7 +17,7 @@ await connectDB();
 app.use(express.json());
 
 // CORS configuration
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173', 'https://bg-removal-backend5.vercel.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
