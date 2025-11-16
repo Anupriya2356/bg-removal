@@ -16,26 +16,14 @@ await connectDB();
 // Initialize Middleware
 app.use(express.json());
 
-// CORS configuration
-const allowedOrigins = ['http://localhost:5173', 'https://bg-removal-backend5.vercel.app'];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  exposedHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
-  maxAge: 86400 // 24 hours
-};
-
-// Apply CORS middleware
-app.use(cors(corsOptions));
+// CORS (allow all origins)
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // API routes
 app.get('/', (req, res) => res.send('API Working'));
@@ -53,4 +41,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: 'Something went wrong!' });
 });
 
+// Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
