@@ -36,6 +36,14 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
+// CORS (allow all origins)
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // API routes
 app.get('/', (req, res) => res.send('API Working'));
@@ -53,4 +61,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: 'Something went wrong!' });
 });
 
+// Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
