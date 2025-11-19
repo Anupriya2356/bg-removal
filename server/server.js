@@ -17,7 +17,7 @@ await connectDB();
 app.use(express.json());
 
 // CORS configuration
-const allowedOrigins = ['http://localhost:5173'];
+const allowedOrigins = ['http://localhost:5173', 'https://bg-removal-anu-backend.vercel.app', 'https://bg-removal-anu-frontend.vercel.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -36,6 +36,14 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
+// CORS (allow all origins)
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // API routes
 app.get('/', (req, res) => res.send('API Working'));
@@ -53,4 +61,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ success: false, message: 'Something went wrong!' });
 });
 
+// Server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
