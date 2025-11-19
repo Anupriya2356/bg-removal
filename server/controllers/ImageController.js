@@ -1,5 +1,4 @@
 import axios from 'axios';
-import fs from 'fs';
 import FormData from 'form-data';
 import userModel from '../models/userModel.js';
 
@@ -19,14 +18,16 @@ const removeBgImage = async (req, res) => {
       });
     }
 
-    if (!req.file) {
+    if (!req.file || !req.file.buffer) {
       return res.status(400).json({ success: false, message: 'No image file provided' });
     }
 
-    // Reading the image file
-    const imageFile = fs.createReadStream(req.file.path);
+    // Build form data from in-memory buffer
     const formdata = new FormData();
-    formdata.append('image_file', imageFile);
+    formdata.append('image_file', req.file.buffer, {
+      filename: req.file.originalname || 'upload.png',
+      contentType: req.file.mimetype || 'image/png',
+    });
 
     // Call the background removal API
     const { data } = await axios.post(
@@ -49,11 +50,6 @@ const removeBgImage = async (req, res) => {
     user.creditBalance -= 1;
     await user.save();
 
-    // Clean up the uploaded file
-    fs.unlink(req.file.path, (err) => {
-      if (err) console.error('Error deleting file:', err);
-    });
-
     res.json({
       success: true,
       resultImage,
@@ -62,14 +58,7 @@ const removeBgImage = async (req, res) => {
     });
   } catch (error) {
     console.error('Error in removeBgImage:', error);
-    
-    // Clean up the uploaded file in case of error
-    if (req.file?.path) {
-      fs.unlink(req.file.path, (err) => {
-        if (err) console.error('Error deleting file after error:', err);
-      });
-    }
-    
+
     res.status(500).json({
       success: false,
       message: error.response?.data?.error || 'Failed to process image',
