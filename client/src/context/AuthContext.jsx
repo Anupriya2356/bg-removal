@@ -1,6 +1,7 @@
 import { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       setAuthToken(token);
-      const { data } = await axios.get('http://localhost:4000/api/auth/me');
+      const { data } = await axios.get(`${backendUrl}/api/auth/me`);
       setUser(data.user);
       return data.user;
     } catch (error) {
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const { data } = await axios.post(
-        'http://localhost:4000/api/auth/login', 
+        `${backendUrl}/api/auth/login`, 
         { email, password },
         {
           headers: {
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('Sending registration data:', userData);
       const { data } = await axios.post(
-        'http://localhost:4000/api/auth/register', 
+        `${backendUrl}/api/auth/register`, 
         userData,
         {
           headers: {
